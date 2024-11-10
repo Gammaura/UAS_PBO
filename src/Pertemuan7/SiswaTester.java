@@ -57,7 +57,7 @@ public class SiswaTester {
         siswa1.setNilaiUjian(95);
 
         // Menampilkan informasi yang telah diperbarui
-        System.out.println("\nSETELAH DIUBAH");
+        System.out.println("\nSETELAH DIUBAH : ");
         siswa1.tampilkanInfo();
 
         // Menguji validasi dengan memasukkan nilai yang tidak valid

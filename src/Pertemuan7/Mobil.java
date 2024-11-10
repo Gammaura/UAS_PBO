@@ -33,7 +33,6 @@ public class Mobil {
 
         System.out.print("\033[H\033[2J");
 
-
         Mobil mobil1 = new Mobil("TOYOTA", 2022, 30000000);
         System.out.println("MERK MOBIL : " + mobil1.merk);
         System.out.println("TAHUN PRODUKSI MOBIL : " + mobil1.tahunProduksi);
