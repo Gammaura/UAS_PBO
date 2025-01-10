@@ -10,7 +10,6 @@ public class UserController {
         userDatabase = new HashMap<>(); // Inisialisasi userDatabase
         userDatabase.put("pangeran naga", "rajalance");
         userDatabase.put("dikdok", "poke");
-        userDatabase.put("", "poke");
     }
 
     // Metode untuk mendaftarkan pengguna baru

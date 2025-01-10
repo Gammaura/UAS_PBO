@@ -5,37 +5,67 @@ import controllers.UserController;
 import javax.swing.*;
 import java.awt.*;
 
-public class HalamanLogin extends JFrame {
+public class LoginPage extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private UserController userController;
 
-    public HalamanLogin() {
+    public LoginPage() {
         userController = new UserController(); // Inisialisasi UserController
-        setTitle("SIGN IN");
 
         // Mendapatkan ukuran layar desktop
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = screenSize.width + 64;
+        int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
 
-        // Mengatur ukuran jendela agar sesuai dengan ukuran layar desktop
-        setSize(screenWidth, screenHeight);
-        setLocation((screenWidth - getWidth()), (screenHeight - getHeight()));
+        // Menghapus border dan menyiapkan frame
+        setUndecorated(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Mengatur mode fullscreen dengan GraphicsDevice
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        device.setFullScreenWindow(this); // Mengatur frame menjadi fullscreen
 
         // Panel utama dengan gambar latar belakang
-        JPanel mainPanel = new JPanel() {
+        JPanel A = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon icon = new ImageIcon("images/login.jpg");
+                ImageIcon icon = new ImageIcon("images/background.jpg");
                 g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
-        mainPanel.setLayout(null);
+        A.setSize(screenWidth, screenHeight);
+        A.setLayout(null);
+        
+        JPanel B = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+                // Tambahkan bayangan
+                g2d.setColor(new Color(0, 0, 0, 100)); // Warna hitam dengan transparansi untuk bayangan
+                g2d.fillRoundRect(5, 5, getWidth() - 10, getHeight() - 10, 20, 20);
+        
+                // Latar belakang panel transparan
+                g2d.setColor(new Color(0, 0, 0, 100)); // Warna hitam dengan transparansi untuk latar belakang
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+            }
+        };
+        
+        B.setSize(screenWidth * 2 / 3, screenHeight * 2 / 3);
+        B.setLayout(null);
+        B.setOpaque(false); // Menjadikan panel transparan
+        B.setLocation(
+            (getWidth() - B.getWidth()) / 2,
+            (getHeight() - B.getHeight()) / 2
+        );
 
         // Panel login dengan efek transparansi dan bayangan
-        JPanel loginPanel = new JPanel() {
+        JPanel C = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -43,35 +73,66 @@ public class HalamanLogin extends JFrame {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 // Tambahkan bayangan
-                g2d.setColor(new Color(0, 0, 0, 100));
+                g2d.setColor(new Color(0, 0, 0, 200));
                 g2d.fillRoundRect(5, 5, getWidth() - 10, getHeight() - 10, 20, 20);
 
-                // Latar belakang panel
-                g2d.setColor(new Color(0, 0, 0, 150)); // Transparansi
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+            
             }
         };
-        loginPanel.setSize(500, 400);
-        loginPanel.setLayout(null);
-
-        loginPanel.setLocation(
-            (getWidth() - loginPanel.getWidth()) / 2 - 39,
-            (getHeight() - loginPanel.getHeight()) * 72 / 100
+        C.setSize(500, 400);
+        C.setLayout(null);
+        C.setLocation(
+            (B.getWidth() - C.getWidth()) * 9 / 10 ,
+            (B.getHeight() - C.getHeight()) / 2
         );
 
-        // Label judul
-        JLabel titleLabel = new JLabel("SIGN IN");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 25));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBounds(190, 20, 250, 40);
-        loginPanel.add(titleLabel);
+        // Tambahkan panel login ke panel utama
+        A.add(B);
+        B.add(C);
+
+        // Tambahkan tombol keluar di sudut kanan atas
+        JButton exitButton = new JButton("EXIT");
+        exitButton.setBounds(1800, 1020, 100, 40); // Ukuran dan posisi tombol
+        exitButton.setBackground(new Color(255, 0, 0)); // Warna tombol merah
+        exitButton.setForeground(Color.WHITE); // Warna teks putih
+        exitButton.setFocusPainted(false);
+        exitButton.setFont(new Font("Arial", Font.BOLD, 14));
+
+        // Tambahkan aksi untuk keluar program
+        exitButton.addActionListener(e -> System.exit(0));
+        A.add(exitButton);
+
+        JLabel B1Label = new JLabel("<html>HALO, SELAMAT DATANG DI PET CARE KAMI.");
+        B1Label.setFont(new Font("Arial", Font.BOLD, 40));
+        B1Label.setForeground(Color.WHITE);
+        B1Label.setBounds(70, 200, 560, 140);
+        B.add(B1Label);
+
+        JLabel B2Label = new JLabel("<html>Pet Care adalah layanan yang menyediakan perawatan kesehatan, grooming, dan kebutuhan kesejahteraan hewan peliharaan Anda, memastikan mereka tetap sehat, nyaman, dan bahagia.");
+        B2Label.setFont(new Font("Arial", Font.PLAIN, 20));
+        B2Label.setForeground(Color.WHITE);
+        B2Label.setBounds(70, 340, 540, 140); // Tinggi diperbesar agar muat teks
+        B.add(B2Label);
+
+        JLabel B3Label = new JLabel("Whatsapp: +62 853 1157 2582");
+        B3Label.setFont(new Font("Arial", Font.PLAIN, 20));
+        B3Label.setForeground(Color.WHITE);
+        B3Label.setBounds(70, 480, 560, 30);
+        B.add(B3Label);
 
         // Label judul
-        JLabel akunLabel = new JLabel("Belum Punya Akun?");
-        akunLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        akunLabel.setForeground(Color.WHITE);
-        akunLabel.setBounds(174, 284, 250, 40);
-        loginPanel.add(akunLabel);
+        JLabel C1Label = new JLabel("SIGN IN");
+        C1Label.setFont(new Font("Arial", Font.BOLD, 25));
+        C1Label.setForeground(Color.WHITE);
+        C1Label.setBounds(190, 20, 250, 40);
+        C.add(C1Label);
+
+        // Label judul
+        JLabel C2Label = new JLabel("Belum Punya Akun?");
+        C2Label.setFont(new Font("Arial", Font.BOLD, 14));
+        C2Label.setForeground(Color.WHITE);
+        C2Label.setBounds(174, 284, 250, 40);
+        C.add(C2Label);
 
         // Input username
         usernameField = new JTextField();
@@ -97,7 +158,7 @@ public class HalamanLogin extends JFrame {
                 }
             }
         });
-        loginPanel.add(usernameField);
+        C.add(usernameField);
 
         // Input password
         passwordField = new JPasswordField();
@@ -126,7 +187,7 @@ public class HalamanLogin extends JFrame {
                 }
             }
         });
-        loginPanel.add(passwordField);
+        C.add(passwordField);
 
         // Tombol Login
         JButton loginButton = new JButton("Login");
@@ -176,13 +237,13 @@ public class HalamanLogin extends JFrame {
 
             // Autentikasi user
             if (userController.authenticate(username, password)) {
-                new HalamanUtama();
+                new MainPage();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Username atau password salah!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        loginPanel.add(loginButton);
+        C.add(loginButton);
 
         // Tombol Buat Akun
         JButton signUpButton = new JButton("Buat Akun");
@@ -229,26 +290,23 @@ public class HalamanLogin extends JFrame {
 
         // Tambahkan ActionListener untuk tombol
         signUpButton.addActionListener(e -> {
-            new HalamanBuatAkun(); // Membuka frame Sign Up
+            new CreateAccountPage(); // Membuka frame Sign Up
             setVisible(false); // Menyembunyikan frame login
         });
-        loginPanel.add(signUpButton);
-
-        // Tambahkan panel login ke panel utama
-        mainPanel.add(loginPanel);
-
+        C.add(signUpButton);
+        
         // Pastikan tampilan diperbarui
         SwingUtilities.invokeLater(() -> {
-            mainPanel.revalidate();
-            mainPanel.repaint();
+            A.revalidate();
+            A.repaint();
         });
 
         // Tambahkan panel utama ke frame
-        add(mainPanel);
+        add(A);
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new HalamanLogin());
+        SwingUtilities.invokeLater(() -> new LoginPage());
     }
 }
