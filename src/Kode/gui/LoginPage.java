@@ -115,7 +115,7 @@ public class LoginPage extends JFrame {
         B2Label.setBounds(70, 340, 540, 140); // Tinggi diperbesar agar muat teks
         B.add(B2Label);
 
-        JLabel B3Label = new JLabel("Whatsapp: +62 853 1157 2582");
+        JLabel B3Label = new JLabel("Whatsapp: +62 853 1157 2582 (LISA BLEKPING)");
         B3Label.setFont(new Font("Arial", Font.PLAIN, 20));
         B3Label.setForeground(Color.WHITE);
         B3Label.setBounds(70, 480, 560, 30);
