@@ -139,14 +139,6 @@ public class MainPage extends JFrame {
         contentPanel.setPreferredSize(new Dimension(D.getWidth() - 100, D.getHeight() - 100));
         D.add(contentPanel);
 
-        // Tambahkan halaman konten
-        contentPanel.add(createHomePage(), "Home");
-        contentPanel.add(createPerawatanHewanPage(), "Perawatan Hewan");
-        contentPanel.add(createPenitipanHewanPage(), "Penitipan Hewan");
-        contentPanel.add(createStatusPelayananPage(), "StatusPelayanan");
-        contentPanel.add(createStatusPembayaranPage(), "StatusPembayaran");
-        contentPanel.add(createHistoryPage(), "History");
-
         JButton exitButton = new JButton("LOGOUT");
         exitButton.setBounds((C.getWidth() - 100) / 2, (C.getHeight() - 80), 100, 40); // Ukuran dan posisi tombol
         exitButton.setBackground(new Color(255, 0, 0)); // Warna tombol merah
@@ -414,6 +406,56 @@ public class MainPage extends JFrame {
     
         formContainer.add(formPanel, BorderLayout.CENTER);
         panel.add(formContainer, BorderLayout.CENTER);
+
+        // Bagian Pembayaran
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(new JLabel("Metode Pembayaran:"), gbc);
+        gbc.gridx = 1;
+        JComboBox<String> metodePembayaranBox = new JComboBox<>(new String[]{"Tunai", "Transfer Bank", "E-Wallet"});
+        formPanel.add(metodePembayaranBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(new JLabel("Jumlah Pembayaran (Rp):"), gbc);
+        gbc.gridx = 1;
+        JTextField jumlahPembayaranField = new JTextField(20);
+        jumlahPembayaranField.setEditable(false); // Untuk contoh, jumlah pembayaran otomatis
+        jumlahPembayaranField.setText("500000"); // Contoh nilai default
+        formPanel.add(jumlahPembayaranField, gbc);
+
+        // Tombol Proses Pembayaran
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JButton bayarButton = new JButton("Bayar");
+        bayarButton.setFont(new Font("Arial", Font.BOLD, 14));
+        bayarButton.setBackground(new Color(52, 152, 219));
+        bayarButton.setForeground(Color.WHITE);
+        bayarButton.addActionListener(e -> {
+            String metodePembayaran = metodePembayaranBox.getSelectedItem().toString();
+            String jumlahPembayaran = jumlahPembayaranField.getText();
+
+            // Validasi jika jumlah pembayaran kosong
+            if (jumlahPembayaran.isEmpty()) {
+                JOptionPane.showMessageDialog(panel,
+                        "Jumlah pembayaran tidak valid!",
+                        "Peringatan",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Tampilkan pesan konfirmasi pembayaran
+            JOptionPane.showMessageDialog(panel,
+                    "Pembayaran berhasil!\n" +
+                            "Metode: " + metodePembayaran + "\n" +
+                            "Jumlah: Rp " + jumlahPembayaran,
+                    "Konfirmasi Pembayaran",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+        formPanel.add(bayarButton, gbc);
+
         return panel;
     }
 
@@ -477,7 +519,7 @@ public class MainPage extends JFrame {
         formPanel.add(new JLabel("Kelamin:"), gbc);
         gbc.gridx = 1;
         JPanel kelaminPanel = new JPanel();
-        kelaminPanel.setOpaque(false); // Transparan agar mengikuti warna background
+        kelaminPanel.setOpaque(false);
         JRadioButton jantanButton = new JRadioButton("Jantan");
         JRadioButton betinaButton = new JRadioButton("Betina");
         ButtonGroup kelaminGroup = new ButtonGroup();
@@ -486,13 +528,6 @@ public class MainPage extends JFrame {
         kelaminPanel.add(jantanButton);
         kelaminPanel.add(betinaButton);
         formPanel.add(kelaminPanel, gbc);
-    
-        gbc.gridx = 0;
-        gbc.gridy++;
-        formPanel.add(new JLabel("Jenis Hewan:"), gbc);
-        gbc.gridx = 1;
-        JTextField jenisField = new JTextField(20);
-        formPanel.add(jenisField, gbc);
     
         gbc.gridx = 0;
         gbc.gridy++;
@@ -510,7 +545,7 @@ public class MainPage extends JFrame {
     
         gbc.gridx = 0;
         gbc.gridy++;
-        formPanel.add(new JLabel("Penginapan:"), gbc);
+        formPanel.add(new JLabel("Durasi Penginapan:"), gbc);
         gbc.gridx = 1;
         JComboBox<String> penginapanBox = new JComboBox<>(new String[]{"Harian", "Mingguan", "Bulanan"});
         formPanel.add(penginapanBox, gbc);
@@ -522,61 +557,61 @@ public class MainPage extends JFrame {
         JTextField keluhanField = new JTextField(20);
         formPanel.add(keluhanField, gbc);
     
-        // Submit Button
+        // Metode Pembayaran
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(new JLabel("Metode Pembayaran:"), gbc);
+        gbc.gridx = 1;
+        JComboBox<String> metodePembayaranBox = new JComboBox<>(new String[]{"Tunai", "Transfer Bank", "E-Wallet"});
+        formPanel.add(metodePembayaranBox, gbc);
+    
+        // Jumlah Pembayaran
+        gbc.gridx = 0;
+        gbc.gridy++;
+        formPanel.add(new JLabel("Jumlah Pembayaran (Rp):"), gbc);
+        gbc.gridx = 1;
+        JTextField jumlahPembayaranField = new JTextField(20);
+        jumlahPembayaranField.setEditable(false); // Otomatis diisi
+        jumlahPembayaranField.setText("500000"); // Nilai default untuk contoh
+        formPanel.add(jumlahPembayaranField, gbc);
+    
+        // Tombol Proses Pembayaran
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        JButton submitButton = new JButton("Submit");
-        submitButton.setFont(new Font("Arial", Font.BOLD, 14));
-        submitButton.setBackground(new Color(46, 204, 113));
-        submitButton.setForeground(Color.WHITE);
-        submitButton.addActionListener(e -> {
-            String namaPemilik = namaPemilikField.getText();
-            String nomorHP = nomorHPField.getText();
-            String alamat = alamatField.getText();
-            String namaHewan = namaHewanField.getText();
-            String jenisHewan = jenisHewanBox.getSelectedItem().toString();
-            String kelamin = jantanButton.isSelected() ? "Jantan" : "Betina";
-            String umurHewan = umurField.getText();
-            String tanggalPenitipan = tanggalField.getText();
-            String penginapan = penginapanBox.getSelectedItem().toString();
-            String keluhan = keluhanField.getText();
+        JButton bayarButton = new JButton("Bayar");
+        bayarButton.setFont(new Font("Arial", Font.BOLD, 14));
+        bayarButton.setBackground(new Color(52, 152, 219));
+        bayarButton.setForeground(Color.WHITE);
+        bayarButton.addActionListener(e -> {
+            String metodePembayaran = metodePembayaranBox.getSelectedItem().toString();
+            String jumlahPembayaran = jumlahPembayaranField.getText();
     
-            // Validasi input kosong
-            if (namaPemilik.isEmpty() || nomorHP.isEmpty() || alamat.isEmpty() ||
-                namaHewan.isEmpty() || umurHewan.isEmpty() || tanggalPenitipan.isEmpty()) {
+            // Validasi pembayaran
+            if (jumlahPembayaran.isEmpty()) {
                 JOptionPane.showMessageDialog(panel,
-                        "Harap isi semua kolom yang wajib diisi!",
+                        "Jumlah pembayaran tidak valid!",
                         "Peringatan",
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
     
-            // Tampilkan pesan konfirmasi
+            // Konfirmasi pembayaran
             JOptionPane.showMessageDialog(panel,
-                    "Informasi Penitipan Hewan:\n" +
-                    "Nama Pemilik: " + namaPemilik + "\n" +
-                    "Nomor HP: " + nomorHP + "\n" +
-                    "Alamat: " + alamat + "\n" +
-                    "Nama Hewan: " + namaHewan + "\n" +
-                    "Jenis Hewan: " + jenisHewan + "\n" +
-                    "Kelamin: " + kelamin + "\n" +
-                    "Umur Hewan: " + umurHewan + "\n" +
-                    "Tanggal Penitipan: " + tanggalPenitipan + "\n" +
-                    "Durasi Penginapan: " + penginapan + "\n" +
-                    "Catatan Keluhan: " + keluhan,
-                    "Konfirmasi Penitipan Hewan",
+                    "Pembayaran berhasil!\n" +
+                    "Metode: " + metodePembayaran + "\n" +
+                    "Jumlah: Rp " + jumlahPembayaran,
+                    "Konfirmasi Pembayaran",
                     JOptionPane.INFORMATION_MESSAGE);
-    
-            // Simpan data ke database atau status pelayanan di aplikasi (opsional)
         });
-        formPanel.add(submitButton, gbc);
+        formPanel.add(bayarButton, gbc);
     
         formContainer.add(formPanel, BorderLayout.CENTER);
         panel.add(formContainer, BorderLayout.CENTER);
         return panel;
     }
+    
 
     // Halaman konten untuk "Status Pelayanan"
     private JPanel createStatusPelayananPage() {
